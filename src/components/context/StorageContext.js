@@ -1,18 +1,14 @@
 import React, { useContext, useEffect, useState} from 'react'
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
-import { updateProfile, updateCurrentUser } from "firebase/auth"
+import { updateProfile } from "firebase/auth"
 import {
     collection,
     query,
     onSnapshot,
     doc,
     updateDoc,
-    deleteDoc,
-    orderBy,
-    addDoc,
   } from 'firebase/firestore'
   import { db, storage } from '../firebase'
-  import { useAuth } from './AuthContext'
 
 const StorageContext = React.createContext()
 
@@ -31,7 +27,6 @@ export async function upload(file, currentUser, setLoading){
 
   updateDoc(doc(db, 'users', currentUser.uid), {photoURL: photoURL})
 
-  
   updateProfile(currentUser, { photoURL })
 
   setLoading(false)

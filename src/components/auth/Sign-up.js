@@ -1,29 +1,25 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useRef, useState } from "react"
 import { useAuth } from "../context/AuthContext"
 import { useNavigate } from "react-router-dom"
 import { Link } from 'react-router-dom';
 
-import { getDatabase, ref, set, update, get, query, onValue } from "firebase/database"
+
 import { auth, db } from '../firebase'
-import { addDoc, collection } from 'firebase/firestore';
 import { useStorage } from '../context/StorageContext'
 
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
-
-
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-// import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { updateCurrentUser, updateProfile } from "firebase/auth";
+
 
 
 function Copyright(props) {
@@ -52,12 +48,6 @@ export default function SignUp() {
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
-    const { users } = useStorage()
-    
-
-    
-    
-    
     
 
     async function handleSubmit(e) {
@@ -89,13 +79,11 @@ export default function SignUp() {
           name: name,
           lastName: lastName,
           email: emailRef.current.value,
-          photoUrl: '',
+          photoURL: 'https://cdn.dribbble.com/users/6142/screenshots/5679189/media/1b96ad1f07feee81fa83c877a1e350ce.png?compress=1&resize=400x300&vertical=top'
         })
       }
 
       
-
-
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">

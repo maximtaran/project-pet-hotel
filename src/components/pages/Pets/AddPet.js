@@ -2,15 +2,12 @@ import * as React from 'react';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { FormLabel, Input, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { useHistory } from 'react-router-dom'
-import { updateCurrentUser } from 'firebase/auth';
 import { useAuth } from '../../context/AuthContext';
-import { uploadPetPhoto, useStorage } from '../../context/StorageContext';
+
 
 const style = {
   position: 'absolute',
@@ -28,16 +25,11 @@ export default function BasicModal() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [loading, setLoading] = useState(false)
   const { currentUser } = useAuth()
-  // const history = useHistory();
-
   const [title, setTitle] = useState('')
   const [about, setAbout] = useState('')
-  const { pets } = useStorage()
-
-  const [petPhotoUrl, setPetPhotoUrl] = useState('')
   
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (title !== '') {
@@ -64,10 +56,11 @@ export default function BasicModal() {
           color: '#fff'
         }}
       >
+
         <h1>Add+</h1>
+
       </Button>
       <Modal
-        
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -79,54 +72,40 @@ export default function BasicModal() {
           onSubmit={handleSubmit}
         >
           <div style={{}}>
-                <TextField
-                    style={{width: '100%'}}
-                    margin="normal"
-                    id="outlined-basic"
-                    label="Add new pet..."
-                    variant="outlined"
-                    type='text'
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
+            <TextField
+              style={{width: '100%'}}
+              margin="normal"
+              id="outlined-basic"
+              label="Add new pet..."
+              variant="outlined"
+              type='text'
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
 
-                <TextField
-                    style={{width: '100%'}}
-                    margin="normal"
-                    id="outlined-basic"
-                    label="About your Pet"
-                    variant="outlined"
-                    type='text'
-                    value={about}
-                    onChange={(e) => setAbout(e.target.value)}
-                />
+            <TextField
+              style={{width: '100%', marginBottom: '20px'}}
+              margin="normal"
+              id="outlined-basic"
+              label="About your Pet"
+              variant="outlined"
+              type='text'
+              multiline
+              maxRows={10}
+              minRows={4}
+              value={about}
+              onChange={(e) => setAbout(e.target.value)}
+            />
 
+            <Button
+              type='submit'
+              variant="contained"
+              >
+                  Add+
+            </Button>
 
-                {/* <img src={ petPhotoUrl } alt='avatar' style={{borderRadius: '50%', maxWidth: '100px', height: '100px', margin: '10px', backgroundSize: 'cover'}}/> */}
-
-                {/* <FormLabel style={{display: 'block'}}>
-                  
-                  <TextField style={{margin: '10px', display: 'none'}} type='file' onChange={ handleChange } />
-                  Add pic
-                </FormLabel>
-
-                <Button
-                    onClick={() => handleClick}
-                  >
-                    Add photo
-                </Button> */}
-
-                
-
-                <Button
-                  type='submit'
-                  variant="contained"
-                  >
-                      Add+
-                  </Button>
-
-                
-            </div>
+          </div>
+          
         </Box>
       </Modal>
     </div>

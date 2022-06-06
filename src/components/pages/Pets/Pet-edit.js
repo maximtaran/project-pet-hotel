@@ -2,22 +2,25 @@ import React, { useEffect, useState } from 'react'
 
 import { useAuth } from '../../context/AuthContext'
 import { uploadPetPhoto, useStorage } from '../../context/StorageContext'
-import { Link } from 'react-router-dom'
 
 import { Box, Button, FormLabel, Input, TextField } from '@mui/material'
+import { Link } from 'react-router-dom'
+
+
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 
 
-
-const Pet = ({ pet, handleDelete, handleEdit}) => {
+const PetEdit = ({ pet, handleDelete, handleEdit}) => {
 
   const [newTitle, setNewTitle] = useState(pet.title)
   const { currentUser } = useAuth()
+  const { pets } = useStorage()
   const [loading, setLoading] = useState(false)
   const [petPhotoUrl, setPetPhotoUrl] = useState('')
   const [petPhoto, setPetPhoto] = useState('')
@@ -37,14 +40,12 @@ const Pet = ({ pet, handleDelete, handleEdit}) => {
   useEffect(() => {
     if (pet?.photoURL){
       setPetPhotoUrl(pet.photoURL)
-      
     }else{
       setPetPhotoUrl('https://www.maisonette.gr/wp-content/uploads/2018/01/pet-icon.png')
     }
   }, [pet.photoURL])
 
-  
-  
+
   return (
     
     <Box
@@ -53,6 +54,7 @@ const Pet = ({ pet, handleDelete, handleEdit}) => {
       style={{display: 'flex', alignItems: 'center', flexDirection: 'column', marginBottom: '20px'}}
     >
       
+
       <Card
         sx={{
           display: 'flex',
@@ -84,7 +86,6 @@ const Pet = ({ pet, handleDelete, handleEdit}) => {
             ('')
             }
             
-
             <CardMedia
               className='pet-img'
               component="img"
@@ -120,6 +121,7 @@ const Pet = ({ pet, handleDelete, handleEdit}) => {
 
           </FormLabel>
 
+          
         </div>
 
         <div
@@ -146,25 +148,25 @@ const Pet = ({ pet, handleDelete, handleEdit}) => {
             
             <Link
               className="btn-link"
-              to={`/pet-about/${pet.id}`}
+              to={`/pet-edit/${pet.id}`}
               
             >
-              Read more 
+              Edit 
             </Link>
             
             <div>
               {currentUser.email === pet.email ? 
                 (<CardActions>
-                  <Button
+                    <Button
                     onClick={() => handleDelete(pet)}
-                  >
+                    >
                     <i
                       style={{
-                        padding: '8px',
-                        border: '1px solid black',
-                        borderRadius: '10px',
-                        background: '#b2102f',
-                        color: '#fff'
+                      padding: '8px',
+                      border: '1px solid black',
+                      borderRadius: '10px',
+                      background: '#b2102f',
+                      color: '#fff'
                       }}
                       class="fa-solid fa-trash"
                     >
@@ -172,11 +174,13 @@ const Pet = ({ pet, handleDelete, handleEdit}) => {
                         Delete pet
                       </span>
                     </i>
-                  </Button>
-                </CardActions>) 
-              :
-              ('')
+                    </Button>
+                  </CardActions>
+                ) 
+                :
+                ('')
               }
+
             </div>
 
           </CardContent>
@@ -188,4 +192,4 @@ const Pet = ({ pet, handleDelete, handleEdit}) => {
   )
 }
 
-export default Pet
+export default PetEdit

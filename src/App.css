@@ -1,5 +1,11 @@
+*{
+  font-family: 'Kdam Thmor Pro', sans-serif;
+  
+}
+
 .App {
   text-align: center;
+  box-sizing: border-box;
 }
 
 h1{
@@ -52,7 +58,125 @@ a{
 
 .pet-img{
   cursor: pointer;
+  margin: 10px;
 }
 .pet-img:hover{
   opacity: 0.7;
+}
+
+.btn-link{
+  font-size: 26px;
+  background-color: #379cfa;
+  padding: 1px 20px;
+  border-radius: 10px;
+  border: 1px solid #000;
+  color: #fff;
+}
+
+.pet-about-img{
+  margin-bottom: 50px;
+  /* min-width: 500px; */
+  width: 500px;
+  height: auto;
+  margin: 10px;
+  
+  border-radius: 20px;
+}
+
+.profile-pannel{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  padding: 0 15px;
+  margin-top: 15px;
+  width: 90%;
+  height: 170px;
+  text-align: left;
+  border: 1px solid #000;
+  border-radius: 10px;
+  background: #fdd8358d;
+  color: #000;
+}
+
+.pet-about-wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  padding: 10px;
+  width: 90%;
+  background: #f9fafb70;
+  border-radius: 20px;
+}
+
+.pet-about-text{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.pet-about-text h1{
+  font-size: 56px;
+}
+
+.chat{
+  margin: 0 auto;
+  width: 100%;
+}
+
+.chat-wrapper{
+  overflow: scroll;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: 90%;
+  height: 500px;
+  background: #00aeffb1;
+  border-radius: 20px;
+}
+
+.message{
+  max-width: 100%;
+}
+
+.blog-article{
+  display: flex;
+  width: 100%;
+  margin: 0;
+  margin-bottom: 10px;
+  
+}
+
+.blog-article-content{
+  display: flex;
+}
+
+.blog-img{
+  display: flex;
+  width:100%;
+  height: auto;
+}
+.blog-card-content{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 50%;
+  background: #fde05d7e;
+}
+
+.blog-img-wrapper{
+  width: 500px;
+  width: 100%;
+  height: auto;
+}
+
+.footer{
+  font-size: 26px;
 }

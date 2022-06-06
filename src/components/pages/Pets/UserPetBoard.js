@@ -1,43 +1,37 @@
 import React, { useEffect, useState } from "react"
 import { useAuth } from "../../context/AuthContext"
 import { Link, useNavigate } from "react-router-dom"
-import Pet from "./Pet"
 import NavBar from '../NavBar'
 import AddPet from './AddPet'
 import {
-    collection,
-    query,
-    onSnapshot,
     doc,
     updateDoc,
     deleteDoc,
-    orderBy,
   } from 'firebase/firestore'
 import { db } from '../../firebase'
 import { useStorage } from '../../context/StorageContext'
-import { Button, Card, CardActions, CardContent, CardMedia, FormLabel, TextField, Typography } from "@mui/material"
+import PetEdit from "./Pet-edit"
 
 
 export default function UserPetBoard( ) {
   const [error, setError] = useState("")
   const { currentUser, logout } = useAuth()
   const navigate = useNavigate()
+  const [photoURL, setPhotoURL] = useState()
 
   const { pets, users } = useStorage([])
 
   const userData = users.map((data) => {
     if (data.id === currentUser.uid){
       return (
-      <div>
-        <h1 key={data.id}>{data.name} {data.lastName}</h1>
-        <h3 key={data.id}>{data.email}</h3>
+      <div key={data.id}>
+        <h1>{data.name} {data.lastName}</h1>
+        <h3>{data.email}</h3>
       </div>
       
       )
     }
   })
-  
-
 
   const handleEdit = async ( pet, title ) => {
     await updateDoc(doc(db, 'pets', pet.id), {title: title})
@@ -57,16 +51,18 @@ export default function UserPetBoard( ) {
     await doc(db, 'pets', pet.id)
   }
 
-  const userAvatar = users.map((data) => {
-    if (data.id === currentUser.uid){
-      return data.photoURL
-    }
-  })
+  useEffect(() => {
+    users.map((data) => {
+     if (data.id === currentUser.uid){
+       return setPhotoURL(data.photoURL)
+     }
+   })
+ }, [users])
 
   const currentUserPet = pets.map((pet) => {
     if (pet.email === currentUser.email){
       return (
-        <Pet
+        <PetEdit
             key={pet.id}
             pet={pet}
             toggleComplete={toggleComplete}
@@ -85,45 +81,27 @@ export default function UserPetBoard( ) {
       style={{
         height: '100vh',
         background: 'url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzuU6uzZgHhkmAGcJvrWZybCPFBLhcfBEyGw&usqp=CAU)',
-        
+        overflow: 'scroll',
       }}
     >
       <NavBar/>
       <div
-      style={{
-        display: 'flex',
-         justifyContent: 'space-between',
-         alignItems: 'center',
-         margin: '0 auto',
-         padding: '0 15px',
-         marginTop: '5px',
-         width: '90%',
-         textAlign: 'start',
-         border: '1px solid blue',
-         borderRadius: '10px',
-         backgroundColor: '#ebf3fa',
-         color: '#000'
-         }}>
+        className="profile-pannel"
+      >
+        <div
+          style={{minHeight: '150px'}}
+        >
+          {userData}
 
-        {userData}
+          <Link
+            className="btn-link"
+            to='/pet-board'
+          >
+            Pet-board
+          </Link>
+        </div>
 
-        <Button variant="contained">
-            <Link
-                style={{
-                    fontSize: '16px',
-                     color: '#fff'
-                }}
-                to='/pet-board'
-            >
-              Pet-board
-            </Link>
-        </Button>
-
-        <FormLabel style={{textAlign: 'center', cursor: 'pointer'}}>
-          <TextField style={{margin: '10px', display: 'none'}} type='file' />
-
-          <img src={`${userAvatar}`} alt='avatar' style={{borderRadius: '50%', maxWidth: '100px', height: '100px', margin: '10px', backgroundSize: 'cover'}}/>
-        </FormLabel>
+        <img src={photoURL} alt='avatar' style={{borderRadius: '50%', maxWidth: '100px', height: '100px', margin: '10px', backgroundSize: 'cover'}}/>
       </div>
       
       <div
@@ -138,8 +116,7 @@ export default function UserPetBoard( ) {
         <AddPet/>
       </div>
       {currentUserPet}
-      
-      
+ 
     </div>
   )
 }

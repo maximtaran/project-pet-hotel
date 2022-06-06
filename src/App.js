@@ -17,6 +17,7 @@ import EditProfile from "./components/pages/Profile.js/EditProfile";
 import UserPetBoard from "./components/pages/Pets/UserPetBoard";
 import PetBoard from "./components/pages/PetBoard/PetBoard";
 import PetAbout from "./components/pages/Pets/PetAbout";
+import PetEditInner from "./components/pages/Pets/Pet-edit-inner";
 
 
 function PrivateRoute () {
@@ -25,10 +26,8 @@ function PrivateRoute () {
 }
 
 
-
 function App({handlePet}) {
   
-
   return (
     <div className="App">
       <BrowserRouter>
@@ -39,25 +38,14 @@ function App({handlePet}) {
               <Route path="/" element={<PrivateRoute/>}>
                 <Route index element={<Mainpage/>}/>
               </Route>
-             
-              
+              <Route path="/edit-profile" element={<EditProfile/>} />
               <Route path="/user-pet-board" element={<UserPetBoard/>}/>
-
               <Route path="/pet-board" element={<PetBoard/>}/>
-              <Route path="/pet-about" element={<PetAbout/>}/>
-              
-                
-                {/* <Route path="teams" element={<Teams />}>
-                  <Route path=":teamId" element={<Team />} />
-                  <Route path="new" element={<NewTeamForm />} />
-                  <Route index element={<LeagueStandings />} />
-                </Route> */}
-              
-
+              <Route path="/pet-about/:id" element={<PetAbout/>}/>
+              <Route path="/pet-edit/:id" element={<PetEditInner/>}/>
               <Route path="/sign-in" element={<SignIn/>} />
               <Route path="/sign-up" element={<SignUp/>} />
               <Route path="/forgot-password" element={<ForgotPassword/>} />
-              <Route path="/edit-profile" element={<EditProfile/>} />
 
             </Routes>
           </StorageProvider>
