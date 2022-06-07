@@ -5,10 +5,10 @@ import Pet from "../Pets/Pet"
 import NavBar from '../NavBar'
 import AddPet from '../Pets/AddPet'
 import {
-    doc,
-    updateDoc,
-    deleteDoc,
-  } from 'firebase/firestore'
+  doc,
+  updateDoc,
+  deleteDoc,
+} from 'firebase/firestore'
 import { db } from '../../firebase'
 import { useStorage, uploadPetPhoto } from '../../context/StorageContext'
 import { Button, Card, CardActions, CardContent, CardMedia, FormLabel, TextField, Typography } from "@mui/material"
@@ -20,12 +20,10 @@ export default function PetEditInner( ) {
   const { currentUser } = useAuth()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
-
   const { pets, users } = useStorage([])
   const [petPhoto, setPetPhoto] = useState('')
   const [photoURL, setPhotoURL] = useState('')
   const {id} = useParams()
-
   const [title, setTitle] = useState('')
   const [about, setAbout] = useState('')
 
@@ -69,7 +67,6 @@ export default function PetEditInner( ) {
  useEffect(() => {
     if (pet?.photoURL){
       setPetPhoto(pet.photoURL)
-      
     }else{
       setPetPhoto('https://www.maisonette.gr/wp-content/uploads/2018/01/pet-icon.png')
     }
@@ -88,9 +85,9 @@ export default function PetEditInner( ) {
       <div
         className="profile-pannel"
       >
-         <div
-          style={{minHeight: '150px'}}
-         >
+        <div
+        style={{minHeight: '150px'}}
+        >
           {userData}
 
           <Link
@@ -107,20 +104,19 @@ export default function PetEditInner( ) {
           >
             User Pet-board
           </Link>
-         </div>
+        </div>
 
-         <img src={photoURL} alt='avatar' style={{borderRadius: '50%', maxWidth: '100px', height: '100px', margin: '10px', backgroundSize: 'cover'}}/>
-      </div>
-      
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '10px 50px',
-          
+        <img
+          src={photoURL}
+          alt='avatar'
+          style={{
+            borderRadius: '50%',
+            maxWidth: '100px',
+            height: '100px',
+            margin: '10px',
+            backgroundSize: 'cover'
         }}
-      >
+        />
       </div>
 
       <div>
@@ -134,8 +130,7 @@ export default function PetEditInner( ) {
                 <div>
                     <FormLabel style={{textAlign: 'center', cursor: 'pointer'}}>
                     <TextField className='input-img' style={{ display: 'none', margin: '0 auto'}} type='file' onChange={ handleChange } />
-
-                        <img src={data.photoURL} alt='avatar' className="pet-about-img"/>
+                      <img src={data.photoURL} alt='avatar' className="pet-about-img"/>
                     </FormLabel>
 
                     <Button
@@ -143,17 +138,14 @@ export default function PetEditInner( ) {
                       disabled={!loading}
                       onClick={() => handleClick(id)}
                       style={{
-                          width: '90%',
-                          maxWidth: '300px',
-                          margin: '0 auto 5px'
+                        width: '90%',
+                        maxWidth: '300px',
+                        margin: '0 auto 5px'
                       }}
                     >
                       Add photo
                     </Button>
                 </div>
-                
-
-                
 
                 <div
                   className="pet-about-text"
@@ -170,6 +162,7 @@ export default function PetEditInner( ) {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                   />
+
                   <TextField
                     style={{width: '80%', height: 'auto'}}
                     margin="normal"
@@ -190,19 +183,10 @@ export default function PetEditInner( ) {
                   >
                     Edit pet
                   </Button>
-                  <div
-                    style={{textAlign: 'center'}}
-                  >
-                    
-                  </div>
-                  
-                  
-                  
                 </div>
                 
               </div>
             )
-              
           }
         })}
       </div>

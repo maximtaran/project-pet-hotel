@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react'
-
 import { useAuth } from '../../context/AuthContext'
 import { uploadPetPhoto, useStorage } from '../../context/StorageContext'
-
-import { Box, Button, FormLabel, Input, TextField } from '@mui/material'
 import { Link } from 'react-router-dom'
 
-
+import { Box, Button, FormLabel, Input, TextField } from '@mui/material'
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
@@ -24,7 +21,6 @@ const PetEdit = ({ pet, handleDelete, handleEdit}) => {
   const [loading, setLoading] = useState(false)
   const [petPhotoUrl, setPetPhotoUrl] = useState('')
   const [petPhoto, setPetPhoto] = useState('')
-
 
   const handleChange = (e) => {
     if (e.target.files[0]) {
@@ -47,13 +43,11 @@ const PetEdit = ({ pet, handleDelete, handleEdit}) => {
 
 
   return (
-    
     <Box
       key={pet.id}
       component='form'
       style={{display: 'flex', alignItems: 'center', flexDirection: 'column', marginBottom: '20px'}}
     >
-      
 
       <Card
         sx={{
@@ -117,11 +111,9 @@ const PetEdit = ({ pet, handleDelete, handleEdit}) => {
             :
             ('')
             }
-            
 
           </FormLabel>
 
-          
         </div>
 
         <div
@@ -180,13 +172,9 @@ const PetEdit = ({ pet, handleDelete, handleEdit}) => {
                 :
                 ('')
               }
-
             </div>
-
           </CardContent>
-
         </div>
-        
       </Card>
     </Box>
   )

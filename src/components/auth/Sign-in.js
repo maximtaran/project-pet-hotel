@@ -34,26 +34,26 @@ const theme = createTheme();
 
 export default function SignIn() {
 
-    const emailRef = useRef()
-    const passwordRef = useRef()
-    const { login } = useAuth()
-    const [error, setError] = useState("")
-    const [loading, setLoading] = useState(false)
-    const navigate = useNavigate()
+  const emailRef = useRef()
+  const passwordRef = useRef()
+  const { login } = useAuth()
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
-    async function handleSubmit(e) {
-        e.preventDefault()
+  async function handleSubmit(e) {
+      e.preventDefault()
 
-        try {
-          setError("")
-          setLoading(true)
-          await login(emailRef.current.value, passwordRef.current.value)
-          navigate("/")
-        } catch {
-          setError("Failed to log in")
-        }
-        setLoading(false)
+      try {
+        setError("")
+        setLoading(true)
+        await login(emailRef.current.value, passwordRef.current.value)
+        navigate("/")
+      } catch {
+        setError("Failed to log in")
       }
+      setLoading(false)
+    }
 
   return (
     <ThemeProvider theme={theme}>
@@ -79,7 +79,6 @@ export default function SignIn() {
             <Alert severity="error">{error}</Alert>
           </Stack>}
 
-
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
@@ -104,7 +103,6 @@ export default function SignIn() {
               inputRef={passwordRef}
             />
            
-           
             <Button
               type="submit"
               fullWidth
@@ -114,6 +112,7 @@ export default function SignIn() {
             >
               Sign In
             </Button>
+            
             <Grid container>
               <Grid item xs>
                 <Link to="/forgot-password" variant="body2">

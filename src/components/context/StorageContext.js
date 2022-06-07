@@ -7,15 +7,14 @@ import {
     onSnapshot,
     doc,
     updateDoc,
-  } from 'firebase/firestore'
-  import { db, storage } from '../firebase'
+} from 'firebase/firestore'
+import { db, storage } from '../firebase'
 
 const StorageContext = React.createContext()
 
 export function useStorage() {
     return useContext(StorageContext)
 }
-
 
 export async function upload(file, currentUser, setLoading){
   const fileRef = ref(storage, 'avatars/' + currentUser.uid)
@@ -50,8 +49,8 @@ export async function uploadPetPhoto(file, pet, setLoading){
 
 
 export function StorageProvider({children}) {
-    const [pets, setPets] = useState([])
-    const [users, setUsers] = useState([])
+  const [pets, setPets] = useState([])
+  const [users, setUsers] = useState([])
   
   useEffect(() => {
     const q = query(collection(db, 'pets'))

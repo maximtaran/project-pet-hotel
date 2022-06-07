@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-
 import { useAuth } from '../../context/AuthContext'
 import { uploadPetPhoto, useStorage } from '../../context/StorageContext'
 import { Link } from 'react-router-dom'
@@ -43,8 +42,7 @@ const Pet = ({ pet, handleDelete, handleEdit}) => {
     }
   }, [pet.photoURL])
 
-  
-  
+
   return (
     
     <Box
@@ -52,7 +50,7 @@ const Pet = ({ pet, handleDelete, handleEdit}) => {
       component='form'
       style={{display: 'flex', alignItems: 'center', flexDirection: 'column', marginBottom: '20px'}}
     >
-      
+
       <Card
         sx={{
           display: 'flex',
@@ -83,7 +81,6 @@ const Pet = ({ pet, handleDelete, handleEdit}) => {
             :
             ('')
             }
-            
 
             <CardMedia
               className='pet-img'

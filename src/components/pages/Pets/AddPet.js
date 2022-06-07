@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '../../firebase';
+import { useAuth } from '../../context/AuthContext';
+
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { TextField } from '@mui/material';
-import { addDoc, collection } from 'firebase/firestore';
-import { db } from '../../firebase';
-import { useAuth } from '../../context/AuthContext';
 
 
 const style = {
@@ -28,7 +29,6 @@ export default function BasicModal() {
   const { currentUser } = useAuth()
   const [title, setTitle] = useState('')
   const [about, setAbout] = useState('')
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -44,7 +44,6 @@ export default function BasicModal() {
     handleClose()
   }
 
-
   return (
     <div>
       <Button
@@ -56,10 +55,9 @@ export default function BasicModal() {
           color: '#fff'
         }}
       >
-
         <h1>Add+</h1>
-
       </Button>
+
       <Modal
         open={open}
         onClose={handleClose}
@@ -105,7 +103,6 @@ export default function BasicModal() {
             </Button>
 
           </div>
-          
         </Box>
       </Modal>
     </div>

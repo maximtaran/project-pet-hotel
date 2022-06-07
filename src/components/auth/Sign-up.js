@@ -2,10 +2,7 @@ import React, { useRef, useState } from "react"
 import { useAuth } from "../context/AuthContext"
 import { useNavigate } from "react-router-dom"
 import { Link } from 'react-router-dom';
-
-
 import { auth, db } from '../firebase'
-import { useStorage } from '../context/StorageContext'
 
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
@@ -39,49 +36,48 @@ const theme = createTheme();
 
 export default function SignUp() {
 
-    const [name, setName] = useState()
-    const [lastName, setLastName] = useState()
-    const emailRef = useRef()
-    const passwordRef = useRef()
-    const passwordConfirmRef = useRef()
-    const { signup, currentUser } = useAuth()
-    const [error, setError] = useState("")
-    const [loading, setLoading] = useState(false)
-    const navigate = useNavigate()
+  const [name, setName] = useState()
+  const [lastName, setLastName] = useState()
+  const emailRef = useRef()
+  const passwordRef = useRef()
+  const passwordConfirmRef = useRef()
+  const { signup } = useAuth()
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
     
 
-    async function handleSubmit(e) {
-        e.preventDefault()
+  async function handleSubmit(e) {
+    e.preventDefault()
+
+    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+      return setError("Passwords do not match")
+    }
+
+    try {
+      setError("")
+      setLoading(true)
+      await signup(emailRef.current.value, passwordRef.current.value).then(() => handleInfo())
+      navigate("/")
+      
+      
+    } catch {
+      setError("Failed to create an account")
+    }
     
-        if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-          return setError("Passwords do not match")
-        }
-
-        try {
-          setError("")
-          setLoading(true)
-          await signup(emailRef.current.value, passwordRef.current.value).then(() => handleInfo())
-          navigate("/")
-          
-          
-        } catch {
-          setError("Failed to create an account")
-        }
-        
-        setLoading(false)
-      }
+    setLoading(false)
+  }
       
 
-      
-      const handleInfo = async ( ) => {
-        const userUid = auth.currentUser.uid
-        await db.collection('users').doc(userUid).set({
-          name: name,
-          lastName: lastName,
-          email: emailRef.current.value,
-          photoURL: 'https://cdn.dribbble.com/users/6142/screenshots/5679189/media/1b96ad1f07feee81fa83c877a1e350ce.png?compress=1&resize=400x300&vertical=top'
-        })
-      }
+  const handleInfo = async ( ) => {
+    const userUid = auth.currentUser.uid
+    await db.collection('users').doc(userUid).set({
+      name: name,
+      lastName: lastName,
+      email: emailRef.current.value,
+      photoURL: 'https://cdn.dribbble.com/users/6142/screenshots/5679189/media/1b96ad1f07feee81fa83c877a1e350ce.png?compress=1&resize=400x300&vertical=top'
+    })
+  }
 
       
   return (
@@ -99,6 +95,7 @@ export default function SignUp() {
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
+
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
@@ -110,8 +107,7 @@ export default function SignUp() {
 
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              
-              <Grid item xs={12} sm={6}>
+              {/* <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
                   name="firstName"
@@ -124,6 +120,7 @@ export default function SignUp() {
                   onChange={(e) => setName(e.target.value)}
                 />
               </Grid>
+
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
@@ -135,7 +132,7 @@ export default function SignUp() {
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                 />
-              </Grid>
+              </Grid> */}
 
               <Grid item xs={12}>
                 <TextField
@@ -145,10 +142,10 @@ export default function SignUp() {
                   label="Email Address"
                   autoComplete="email"
                   type='email'
-
                   inputRef={emailRef}
                 />
               </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   required
@@ -158,7 +155,6 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
-
                   inputRef={passwordRef}
                 />
               </Grid>
@@ -172,7 +168,6 @@ export default function SignUp() {
                   type="password"
                   id="passwordConfirm"
                   autoComplete="repeat-password"
-
                   inputRef={passwordConfirmRef}
                 />
               </Grid>

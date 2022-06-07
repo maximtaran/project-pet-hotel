@@ -4,10 +4,10 @@ import { Link, useNavigate } from "react-router-dom"
 import Pet from "../Pets/Pet"
 import NavBar from '../NavBar'
 import {
-    doc,
-    updateDoc,
-    deleteDoc,
-  } from 'firebase/firestore'
+  doc,
+  updateDoc,
+  deleteDoc,
+} from 'firebase/firestore'
 import { db } from '../../firebase'
 import { useStorage } from '../../context/StorageContext'
 
@@ -31,8 +31,6 @@ export default function PetBoard( ) {
       )
     }
   })
-  
-
 
   const handleEdit = async ( pet, title ) => {
     await updateDoc(doc(db, 'pets', pet.id), {title: title})
@@ -73,8 +71,7 @@ export default function PetBoard( ) {
       <NavBar/>
       <div
         className="profile-pannel"
-     >
-
+      >
         <div
           style={{minHeight: '150px'}}
         >
@@ -87,21 +84,8 @@ export default function PetBoard( ) {
             User Pet-board
           </Link>
         </div>
-        
-        
 
         <img src={photoURL} alt='avatar' style={{borderRadius: '50%', maxWidth: '100px', height: '100px', margin: '10px', backgroundSize: 'cover'}}/>
-      </div>
-      
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '10px 50px',
-          
-        }}
-      >
       </div>
 
       {pets.map((pet) => (
@@ -114,7 +98,6 @@ export default function PetBoard( ) {
             handleEdit={handleEdit}
           />
       ))}
-      
       
     </div>
   )
