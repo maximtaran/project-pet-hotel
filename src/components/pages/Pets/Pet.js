@@ -98,13 +98,13 @@ const Pet = ({ pet, handleDelete, handleEdit}) => {
             {(currentUser.email === pet.email) ?
             (
               <Button
-              variant="contained"
-              disabled={!loading}
-              onClick={() => handleClick(pet)}
-              style={{
-                width: '90%',
-                maxWidth: '300px',
-                margin: '0 auto 5px'
+                variant="contained"
+                disabled={!loading}
+                onClick={() => handleClick(pet)}
+                style={{
+                  width: '90%',
+                  maxWidth: '300px',
+                  margin: '0 auto 5px'
               }}
               >
                 Add photo
@@ -113,10 +113,8 @@ const Pet = ({ pet, handleDelete, handleEdit}) => {
             :
             ('')
             }
-            
 
           </FormLabel>
-
         </div>
 
         <div
@@ -175,11 +173,8 @@ const Pet = ({ pet, handleDelete, handleEdit}) => {
               ('')
               }
             </div>
-
           </CardContent>
-
         </div>
-        
       </Card>
     </Box>
   )
