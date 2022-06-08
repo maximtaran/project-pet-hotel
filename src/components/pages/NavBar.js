@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { useStorage } from '../context/StorageContext';
+
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -6,9 +10,6 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { useStorage } from '../context/StorageContext';
 import { Avatar } from '@mui/material';
 
 export default function MenuAppBar() {
@@ -28,7 +29,6 @@ export default function MenuAppBar() {
   };
 
   async function handleLogout() {
-
     try {
       await logout()
       navigate("/sign-in")
@@ -55,7 +55,6 @@ export default function MenuAppBar() {
             aria-label="account of current user"
             aria-controls="menu-appbar"
             aria-haspopup="true"
-            // onClick={handleMenu}
             color="inherit"
           >
             <i class="fa-solid fa-house"></i>
@@ -69,49 +68,47 @@ export default function MenuAppBar() {
           </Typography>
           
           <div>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <Avatar
-                  alt="Remy Sharp"
-                  src={photoURL}
-                  sx={{ width: 50, height: 50 }}
-                />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenu}
+              color="inherit"
+            >
+              <Avatar
+                alt="Remy Sharp"
+                src={photoURL}
+                sx={{ width: 50, height: 50 }}
+              />
+            </IconButton>
 
-                <MenuItem onClick={handleClose}>
-                  <Link to='/user-pet-board'>User Pet-board</Link>
-                </MenuItem>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose}>
+                <Link to='/user-pet-board'>User Pet-board</Link>
+              </MenuItem>
 
-                <MenuItem onClick={handleClose}>
-                  <Link to='/edit-profile'>Profile-edit</Link>
-                </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <Link to='/edit-profile'>Profile-edit</Link>
+              </MenuItem>
 
-                <MenuItem onClick={handleLogout}>Log Out</MenuItem>
-                
-              </Menu>
-            </div>
-          
+              <MenuItem onClick={handleLogout}>Log Out</MenuItem>
+            </Menu>
+          </div>
         </Toolbar>
       </AppBar>
     </Box>

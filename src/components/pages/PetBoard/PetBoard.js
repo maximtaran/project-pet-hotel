@@ -10,7 +10,8 @@ import {
 } from 'firebase/firestore'
 import { db } from '../../firebase'
 import { useStorage } from '../../context/StorageContext'
-
+import { TextField } from "@mui/material"
+import { PlacesAutocomplete } from '../Autocomplete/autocomplete'
 
 export default function PetBoard( ) {
   const [error, setError] = useState("")
@@ -26,6 +27,7 @@ export default function PetBoard( ) {
       <div key={data.id}>
         <h1>{data.name} {data.lastName}</h1>
         <h3>{data.email}</h3>
+        <h3>Phone Number: {data.phone}</h3>
       </div>
       
       )
@@ -85,7 +87,24 @@ export default function PetBoard( ) {
           </Link>
         </div>
 
-        <img src={photoURL} alt='avatar' style={{borderRadius: '50%', maxWidth: '100px', height: '100px', margin: '10px', backgroundSize: 'cover'}}/>
+        <img
+          src={photoURL}
+          alt='avatar'
+          style={{
+            borderRadius: '50%',
+            maxWidth: '100px',
+            height: '100px',
+            margin: '10px',
+            backgroundSize: 'cover'
+          }}
+        />
+      </div>
+      
+      <PlacesAutocomplete/>
+      <div
+        style={{height: '20px'}}
+      >
+
       </div>
 
       {pets.map((pet) => (

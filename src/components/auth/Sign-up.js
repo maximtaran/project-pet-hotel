@@ -38,6 +38,7 @@ export default function SignUp() {
 
   const [name, setName] = useState()
   const [lastName, setLastName] = useState()
+  const [phone, setPhone] = useState()
   const emailRef = useRef()
   const passwordRef = useRef()
   const passwordConfirmRef = useRef()
@@ -75,6 +76,7 @@ export default function SignUp() {
       name: name,
       lastName: lastName,
       email: emailRef.current.value,
+      phone,
       photoURL: 'https://cdn.dribbble.com/users/6142/screenshots/5679189/media/1b96ad1f07feee81fa83c877a1e350ce.png?compress=1&resize=400x300&vertical=top'
     })
   }
@@ -107,7 +109,7 @@ export default function SignUp() {
 
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              {/* <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
                   name="firstName"
@@ -132,7 +134,21 @@ export default function SignUp() {
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                 />
-              </Grid> */}
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="phone number"
+                  label="Phone number"
+                  name="phone number"
+                  autoComplete="tel"
+                  type='tel'
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+              </Grid>
 
               <Grid item xs={12}>
                 <TextField

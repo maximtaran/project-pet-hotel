@@ -88,10 +88,11 @@ a{
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
+  margin-bottom: 20px;
   padding: 0 15px;
   margin-top: 15px;
   width: 90%;
-  height: 170px;
+  height: 230px;
   text-align: left;
   border: 1px solid #000;
   border-radius: 10px;
@@ -179,4 +180,9 @@ a{
 
 .footer{
   font-size: 26px;
+}
+
+.search{
+  width: 90%;
+  margin-bottom: 20px;
 }

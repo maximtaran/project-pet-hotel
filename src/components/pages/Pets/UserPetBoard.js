@@ -75,7 +75,6 @@ export default function UserPetBoard( ) {
   })
 
 
-
   return (
     <div
       style={{
@@ -101,7 +100,17 @@ export default function UserPetBoard( ) {
           </Link>
         </div>
 
-        <img src={photoURL} alt='avatar' style={{borderRadius: '50%', maxWidth: '100px', height: '100px', margin: '10px', backgroundSize: 'cover'}}/>
+        <img
+          src={photoURL}
+          alt='avatar'
+          style={{
+            borderRadius: '50%',
+            maxWidth: '100px',
+            height: '100px',
+            margin: '10px',
+            backgroundSize: 'cover'
+          }}
+        />
       </div>
       
       <div
@@ -110,7 +119,6 @@ export default function UserPetBoard( ) {
           alignItems: 'center',
           justifyContent: 'center',
           padding: '10px 50px',
-          
         }}
       >
         <AddPet/>

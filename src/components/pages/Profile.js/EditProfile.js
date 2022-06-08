@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-
 import NavBar from '../NavBar'
+import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { useStorage, upload } from '../../context/StorageContext';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '../../firebase';
 
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,11 +14,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useAuth } from '../../context/AuthContext';
-import { useNavigate, Navigate } from 'react-router-dom';
-import { useStorage, upload } from '../../context/StorageContext';
-import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '../../firebase';
 import { Alert, FormLabel, Stack } from '@mui/material';
 
 
@@ -23,94 +22,88 @@ const theme = createTheme();
 
 export default function EditProfile() {
 
-    const emailRef = useRef()
-    const passwordRef = useRef()
-    const passwordConfirmRef = useRef()
-    const { currentUser, updateEmail, updatePassword } = useAuth()
-    const [error, setError] = useState("")
-    const [loading, setLoading] = useState(false)
-    const navigate = useNavigate()
-    const { users } = useStorage()
+  const emailRef = useRef()
+  const passwordRef = useRef()
+  const passwordConfirmRef = useRef()
+  const { currentUser, updateEmail, updatePassword } = useAuth()
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
+  const { users } = useStorage()
+  const [photoURL, setPhotoURL] = useState()
+  const [photo, setPhoto] = useState(null)
 
-    const [photoURL, setPhotoURL] = useState()
-    const [photo, setPhoto] = useState(null)
-
-    const handleChange = (e) => {
-      if (e.target.files[0]) {
-        setPhoto(e.target.files[0])
-        setLoading(true)
-      }
-    }
-  
-    const handleClick = () => {
-      upload(photo, currentUser, setLoading)
-      
-    }
-
-    const handleEdit = async (id, name, lastName) => {
-      await updateDoc(doc(db, 'users', id),
-      {name: name, lastName: lastName})
-    }
-
-
-    useEffect(() => {
-       users.map((data) => {
-        if (data.id === currentUser.uid){
-          return (setPhotoURL(data.photoURL))
-        }
-      })
-    }, [users])
-
-    
-
-
-    const userName = users.map((data) => {
-      if (data.id === currentUser.uid){
-        return data.name
-      }
-    })
-
-    const userLastName = users.map((data) => {
-      if (data.id === currentUser.uid){
-        return data.lastName
-      }
-    })
-
-
-
-    function handleSubmit(e) {
-      e.preventDefault()
-
-      if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-        return setError("Passwords do not match")
-      }
-  
-      const promises = []
+  const handleChange = (e) => {
+    if (e.target.files[0]) {
+      setPhoto(e.target.files[0])
       setLoading(true)
-      setError("")
-  
-      if (emailRef.current.value !== currentUser.email) {
-        promises.push(updateEmail(emailRef.current.value))
-      }
-      if (passwordRef.current.value) {
-        promises.push(updatePassword(passwordRef.current.value))
-      }
-  
-      Promise.all(promises)
-        .then(() => {
-          navigate('/')
-        })
-        .catch(() => {
-          setError("Failed to update account")
-        })
-        .finally(() => {
-          setLoading(false)
-        })
     }
+  }
+
+  const handleClick = () => {
+    upload(photo, currentUser, setLoading)
+  }
+
+  const handleEdit = async (id, name, lastName) => {
+    await updateDoc(doc(db, 'users', id),
+    {name: name, lastName: lastName})
+  }
+
+
+  useEffect(() => {
+      users.map((data) => {
+      if (data.id === currentUser.uid){
+        return (setPhotoURL(data.photoURL))
+      }
+    })
+  }, [users])
+
   
 
-    
-    
+
+  const userName = users.map((data) => {
+    if (data.id === currentUser.uid){
+      return data.name
+    }
+  })
+
+  const userLastName = users.map((data) => {
+    if (data.id === currentUser.uid){
+      return data.lastName
+    }
+  })
+
+
+  function handleSubmit(e) {
+    e.preventDefault()
+
+    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+      return setError("Passwords do not match")
+    }
+
+    const promises = []
+    setLoading(true)
+    setError("")
+
+    if (emailRef.current.value !== currentUser.email) {
+      promises.push(updateEmail(emailRef.current.value))
+    }
+    if (passwordRef.current.value) {
+      promises.push(updatePassword(passwordRef.current.value))
+    }
+
+    Promise.all(promises)
+      .then(() => {
+        navigate('/')
+      })
+      .catch(() => {
+        setError("Failed to update account")
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -118,16 +111,16 @@ export default function EditProfile() {
         <NavBar/>
 
         <Container component="main" maxWidth="xs">
-            <CssBaseline />
+          <CssBaseline />
 
-            <Box
-            sx={{
-                marginTop: 8,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-            }}
-            >
+          <Box
+          sx={{
+              marginTop: 8,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+          }}
+          >
 
           <div style={{display: 'flex', flexDirection: 'column'}}>
             <Typography component="h1" variant="h3">
@@ -150,7 +143,6 @@ export default function EditProfile() {
             </FormLabel>
             
             <Button disabled={!loading} onClick={ handleClick } >Avatar Add</Button>
-            
           </div>
 
           <Typography component="h1" variant="h5">
@@ -174,7 +166,6 @@ export default function EditProfile() {
                   defaultValue={currentUser.email}
                   name="email"
                   autoComplete="email"
-                  // value={currentUser.email}
                   inputRef={emailRef}
                 />
               </Grid>
