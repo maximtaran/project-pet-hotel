@@ -5,7 +5,7 @@ import { getStorage, ref} from "firebase/storage"
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBdi0_P4QvY1Kk5qDmZDjLsy0XfCgWvlfk",
+  apiKey: "AIzaSyBN6RAIa6Zl0QEfLwciDsNuQrXdP9x4dAM",
   authDomain: "finall-project-6771a.firebaseapp.com",
   databaseURL: "https://finall-project-6771a-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "finall-project-6771a",
