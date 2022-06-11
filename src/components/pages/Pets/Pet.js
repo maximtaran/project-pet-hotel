@@ -20,6 +20,8 @@ const Pet = ({ pet, handleDelete, handleEdit}) => {
   const [loading, setLoading] = useState(false)
   const [petPhotoUrl, setPetPhotoUrl] = useState('')
   const [petPhoto, setPetPhoto] = useState('')
+  const [country, setCountry] = useState()
+  const { users } = useStorage()
 
 
   const handleChange = (e) => {
@@ -41,6 +43,14 @@ const Pet = ({ pet, handleDelete, handleEdit}) => {
       setPetPhotoUrl('https://www.maisonette.gr/wp-content/uploads/2018/01/pet-icon.png')
     }
   }, [pet.photoURL])
+
+  useEffect(() => {
+    users.map((data) => {
+     if (data.id === currentUser.uid){
+       return setCountry(data.country)
+     }
+   })
+ }, [users])
 
 
   return (
@@ -147,6 +157,8 @@ const Pet = ({ pet, handleDelete, handleEdit}) => {
               Read more 
             </Link>
             
+            
+
             <div>
               {currentUser.email === pet.email ? 
                 (<CardActions>
@@ -173,6 +185,14 @@ const Pet = ({ pet, handleDelete, handleEdit}) => {
               ('')
               }
             </div>
+            
+            <div className='country-wrapper'>
+              <p className='country'>
+              <i class="fa-solid fa-location-dot"></i>
+                {pet.country}
+              </p>
+            </div>
+            
           </CardContent>
         </div>
       </Card>

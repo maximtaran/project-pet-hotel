@@ -10,24 +10,28 @@ import {
 } from 'firebase/firestore'
 import { db } from '../../firebase'
 import { useStorage } from '../../context/StorageContext'
-import { TextField } from "@mui/material"
-import { PlacesAutocomplete } from '../Autocomplete/autocomplete'
+import { Button, FormGroup, FormLabel, TextField } from "@mui/material"
+import ProfilePannel from "../Profile.js/Profile-pannel"
 
 export default function PetBoard( ) {
   const [error, setError] = useState("")
   const { currentUser, logout } = useAuth()
   const navigate = useNavigate()
   const [photoURL, setPhotoURL] = useState()
+  const [searchValue, setSearchValue] = useState('')
+  const [searchBy, setSearchBy] = useState(true)
+  const [searchVisible, setSearchVisible] = useState(false)
 
   const { pets, users } = useStorage([])
 
   const userData = users.map((data) => {
     if (data.id === currentUser.uid){
       return (
-      <div key={data.id}>
+      <div className="profile-pannel-inner" key={data.id}>
         <h1>{data.name} {data.lastName}</h1>
-        <h3>{data.email}</h3>
+        <h3>Email: {data.email}</h3>
         <h3>Phone Number: {data.phone}</h3>
+        <h3>Country: {data.country}</h3>
       </div>
       
       )
@@ -52,6 +56,18 @@ export default function PetBoard( ) {
     await doc(db, 'pets', pet.id)
   }
 
+  const filteredPetsByCountry = pets.filter((pet) => {
+    return pet.country.toLowerCase().includes(searchValue.toLocaleLowerCase())
+  })
+
+  const filteredPetsByTitle = pets.filter((pet) => {
+    return pet.title.toLowerCase().includes(searchValue.toLocaleLowerCase())
+  })
+
+  const handleSearch = () => {
+    
+  }
+
   useEffect(() => {
     users.map((data) => {
      if (data.id === currentUser.uid){
@@ -70,44 +86,80 @@ export default function PetBoard( ) {
         overflow: 'scroll',
       }}
     >
-      <NavBar/>
-      <div
-        className="profile-pannel"
-      >
-        <div
-          style={{minHeight: '150px'}}
-        >
-          {userData}
+    <NavBar/>
 
-          <Link
-            className="btn-link"
-            to='/user-pet-board'
-          >
-            User Pet-board
-          </Link>
+    <ProfilePannel/>
+
+    {searchBy ?
+    ( 
+      <div>
+        <h2>Search by country</h2>
+        <div className="search-wrapper">
+          <FormGroup>
+              <TextField
+                  type='text'
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  label='Search by country'
+              />
+          </FormGroup>
+
+          <div className="filters">
+            <Button
+              variant="outlined"
+              onClick={(e) => setSearchBy(true)}
+            >
+              By country
+            </Button>
+            
+            <Button
+              onClick={(e) => setSearchBy(false)}
+            >
+              By title
+            </Button>
+          </div>
+          
         </div>
-
-        <img
-          src={photoURL}
-          alt='avatar'
-          style={{
-            borderRadius: '50%',
-            maxWidth: '100px',
-            height: '100px',
-            margin: '10px',
-            backgroundSize: 'cover'
-          }}
-        />
+        {filteredPetsByCountry.map((pet) => (
+          <Pet
+              key={pet.id}
+              pet={pet}
+              toggleComplete={toggleComplete}
+              about={about}
+              handleDelete={handleDelete}
+              handleEdit={handleEdit}
+            />
+        ))}
       </div>
-      
-      <PlacesAutocomplete/>
-      <div
-        style={{height: '20px'}}
-      >
+    )
+    :
+    ( 
+      <div>
+      <h2>Search by title</h2>
+      <div className="search-wrapper">
+        <FormGroup>
+            <TextField
+                type='text'
+                onChange={(e) => setSearchValue(e.target.value)}
+                label='Search by title'
+            />
+        </FormGroup>
 
+        <div className="filters">
+          <Button
+            onClick={(e) => setSearchBy(true)}
+          >
+            By country
+          </Button>
+          
+          <Button
+            variant="outlined"
+            onClick={(e) => setSearchBy(false)}
+          >
+            By title
+          </Button>
+        </div>
       </div>
-
-      {pets.map((pet) => (
+      {filteredPetsByTitle.map((pet) => (
         <Pet
             key={pet.id}
             pet={pet}
@@ -117,6 +169,11 @@ export default function PetBoard( ) {
             handleEdit={handleEdit}
           />
       ))}
+      </div>
+    )
+  }
+
+      
       
     </div>
   )

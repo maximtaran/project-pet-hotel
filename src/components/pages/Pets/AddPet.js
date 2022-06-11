@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { useState } from 'react';
+import React from 'react';
+import { useState, useEffect } from 'react';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { useAuth } from '../../context/AuthContext';
@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { TextField } from '@mui/material';
+import { useStorage } from '../../context/StorageContext';
 
 
 const style = {
@@ -29,6 +30,8 @@ export default function BasicModal() {
   const { currentUser } = useAuth()
   const [title, setTitle] = useState('')
   const [about, setAbout] = useState('')
+  const { users } = useStorage()
+  const [country, setCountry] = useState()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -38,11 +41,21 @@ export default function BasicModal() {
             about,
             email: currentUser.email,
             id: currentUser.uid,
+            country: country,
+            photoURL: 'https://www.maisonette.gr/wp-content/uploads/2018/01/pet-icon.png',
         })
         setTitle('')
     }
     handleClose()
   }
+
+  useEffect(() => {
+    users.map((data) => {
+     if (data.id === currentUser.uid){
+       return setCountry(data.country)
+     }
+   })
+ }, [users])
 
   return (
     <div>

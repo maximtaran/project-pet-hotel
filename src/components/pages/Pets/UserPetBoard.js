@@ -11,6 +11,7 @@ import {
 import { db } from '../../firebase'
 import { useStorage } from '../../context/StorageContext'
 import PetEdit from "./Pet-edit"
+import ProfilePannel from "../Profile.js/Profile-pannel"
 
 
 export default function UserPetBoard( ) {
@@ -84,34 +85,7 @@ export default function UserPetBoard( ) {
       }}
     >
       <NavBar/>
-      <div
-        className="profile-pannel"
-      >
-        <div
-          style={{minHeight: '150px'}}
-        >
-          {userData}
-
-          <Link
-            className="btn-link"
-            to='/pet-board'
-          >
-            Pet-board
-          </Link>
-        </div>
-
-        <img
-          src={photoURL}
-          alt='avatar'
-          style={{
-            borderRadius: '50%',
-            maxWidth: '100px',
-            height: '100px',
-            margin: '10px',
-            backgroundSize: 'cover'
-          }}
-        />
-      </div>
+     <ProfilePannel/>
       
       <div
         style={{

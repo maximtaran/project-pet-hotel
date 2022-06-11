@@ -18,6 +18,7 @@ import UserPetBoard from "./components/pages/Pets/UserPetBoard";
 import PetBoard from "./components/pages/PetBoard/PetBoard";
 import PetAbout from "./components/pages/Pets/PetAbout";
 import PetEditInner from "./components/pages/Pets/Pet-edit-inner";
+import { PlacesAutocompleteProvider } from "./components/context/autocomplete";
 
 
 function PrivateRoute () {
@@ -33,21 +34,24 @@ function App({handlePet}) {
       <BrowserRouter>
         <AuthProvider>
           <StorageProvider>
-            <Routes>
-              
-              <Route path="/" element={<PrivateRoute/>}>
-                <Route index element={<Mainpage/>}/>
-              </Route>
-              <Route path="/edit-profile" element={<EditProfile/>} />
-              <Route path="/user-pet-board" element={<UserPetBoard/>}/>
-              <Route path="/pet-board" element={<PetBoard/>}/>
-              <Route path="/pet-about/:id" element={<PetAbout/>}/>
-              <Route path="/pet-edit/:id" element={<PetEditInner/>}/>
-              <Route path="/sign-in" element={<SignIn/>} />
-              <Route path="/sign-up" element={<SignUp/>} />
-              <Route path="/forgot-password" element={<ForgotPassword/>} />
+            <PlacesAutocompleteProvider>
+              <Routes>
+                
+                <Route path="/" element={<PrivateRoute/>}>
+                  <Route index element={<Mainpage/>}/>
+                </Route>
+                <Route path="/edit-profile" element={<EditProfile/>} />
+                <Route path="/user-pet-board" element={<UserPetBoard/>}/>
+                <Route path="/pet-board" element={<PetBoard/>}/>
+                <Route path="/pet-about/:id" element={<PetAbout/>}/>
+                <Route path="/pet-edit/:id" element={<PetEditInner/>}/>
+                <Route path="/sign-in" element={<SignIn/>} />
+                <Route path="/sign-up" element={<SignUp/>} />
+                <Route path="/forgot-password" element={<ForgotPassword/>} />
 
-            </Routes>
+              </Routes>
+            </PlacesAutocompleteProvider>
+            
           </StorageProvider>
           
         </AuthProvider>

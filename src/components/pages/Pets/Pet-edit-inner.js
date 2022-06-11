@@ -12,6 +12,7 @@ import {
 import { db } from '../../firebase'
 import { useStorage, uploadPetPhoto } from '../../context/StorageContext'
 import { Button, Card, CardActions, CardContent, CardMedia, FormLabel, TextField, Typography } from "@mui/material"
+import ProfilePannel from "../Profile.js/Profile-pannel"
 
 
 
@@ -20,6 +21,7 @@ export default function PetEditInner( ) {
   const { currentUser } = useAuth()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
+  const [editBtnVisible, setEditBtnVisible] = useState(false)
   const { pets, users } = useStorage([])
   const [petPhoto, setPetPhoto] = useState('')
   const [photoURL, setPhotoURL] = useState('')
@@ -64,11 +66,11 @@ export default function PetEditInner( ) {
    })
  }, [users])
 
- useEffect(() => {
+  useEffect(() => {
     if (pet?.photoURL){
-      setPetPhoto(pet.photoURL)
+      setPhotoURL(pet.photoURL)
     }else{
-      setPetPhoto('https://www.maisonette.gr/wp-content/uploads/2018/01/pet-icon.png')
+      setPhotoURL('https://www.maisonette.gr/wp-content/uploads/2018/01/pet-icon.png')
     }
   }, [])
 
@@ -82,43 +84,7 @@ export default function PetEditInner( ) {
       }}
     >
       <NavBar/>
-      <div
-        className="profile-pannel"
-      >
-        <div
-        style={{minHeight: '150px'}}
-        >
-          {userData}
-
-          <Link
-          style={{marginRight: '20px'}}
-            className="btn-link"
-            to='/pet-board'
-          >
-            Pet-board
-          </Link>
-
-          <Link
-            className="btn-link"
-            to='/user-pet-board'
-          >
-            User Pet-board
-          </Link>
-        </div>
-
-        <img
-          src={photoURL}
-          alt='avatar'
-          style={{
-            borderRadius: '50%',
-            maxWidth: '100px',
-            height: '100px',
-            margin: '10px',
-            backgroundSize: 'cover'
-        }}
-        />
-      </div>
-
+      <ProfilePannel/>
       <div>
         {pets.map((data) => {
           if (id === data.id){
@@ -129,8 +95,12 @@ export default function PetEditInner( ) {
               >
                 <div>
                     <FormLabel style={{textAlign: 'center', cursor: 'pointer'}}>
-                    <TextField className='input-img' style={{ display: 'none', margin: '0 auto'}} type='file' onChange={ handleChange } />
-                      <img src={data.photoURL} alt='avatar' className="pet-about-img"/>
+                      <TextField className='input-img' style={{ display: 'none', margin: '0 auto'}} type='file' onChange={ handleChange } />
+                      <div className="pet-about-img-wrapper">
+                        <img src={data.photoURL} alt='petphoto' className="pet-about-img"/>
+                      </div>
+                      
+
                     </FormLabel>
 
                     <Button
@@ -178,6 +148,7 @@ export default function PetEditInner( ) {
                   />
 
                   <Button
+                  // disabled={!editBtnVisible}
                   variant="contained"
                   onClick={() => handleEdit(id, title, about)}
                   >
@@ -186,6 +157,8 @@ export default function PetEditInner( ) {
                 </div>
                 
               </div>
+
+              
             )
           }
         })}

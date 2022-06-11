@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react"
 import { useAuth } from "../context/AuthContext"
+import { useAutocomplete } from '../context/autocomplete'
 import { useNavigate } from "react-router-dom"
 import { Link } from 'react-router-dom';
 import { auth, db } from '../firebase'
@@ -16,6 +17,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 
 
 
@@ -39,6 +41,7 @@ export default function SignUp() {
   const [name, setName] = useState()
   const [lastName, setLastName] = useState()
   const [phone, setPhone] = useState()
+  const [country, setCountry] = useState()
   const emailRef = useRef()
   const passwordRef = useRef()
   const passwordConfirmRef = useRef()
@@ -46,6 +49,7 @@ export default function SignUp() {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  const { ref, handleInput, ready, status, renderSuggestions, value} = useAutocomplete()
     
 
   async function handleSubmit(e) {
@@ -76,12 +80,13 @@ export default function SignUp() {
       name: name,
       lastName: lastName,
       email: emailRef.current.value,
+      country: value,
       phone,
       photoURL: 'https://cdn.dribbble.com/users/6142/screenshots/5679189/media/1b96ad1f07feee81fa83c877a1e350ce.png?compress=1&resize=400x300&vertical=top'
     })
   }
 
-      
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -148,6 +153,21 @@ export default function SignUp() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                 />
+              </Grid>
+
+              <Grid item xs={12}>
+              <div ref={ref}>
+                <TextField
+                  required
+                  className="autocomplete-wrapper"
+                  value={value}
+                  onChange={handleInput}
+                  disabled={!ready}
+                  label="Your country"
+                />
+                {/* We can use the "status" to decide whether we should display the dropdown or not */}
+                {status === "OK" && <ul className="autocomplete">{renderSuggestions()}</ul>}
+              </div>
               </Grid>
 
               <Grid item xs={12}>

@@ -12,6 +12,7 @@ import {
 import { db } from '../../firebase'
 import { useStorage } from '../../context/StorageContext'
 import { FormLabel, TextField } from "@mui/material"
+import ProfilePannel from "../Profile.js/Profile-pannel"
 
 
 
@@ -20,6 +21,7 @@ export default function PetAbout() {
   const { currentUser, logout } = useAuth()
   const { pets, users } = useStorage([])
   const [photoURL, setPhotoURL] = useState()
+  const [phone, setPhone] = useState()
   const {id} = useParams()
 
   const userData = users.map((data) => {
@@ -43,6 +45,14 @@ export default function PetAbout() {
    })
  }, [users])
 
+  useEffect(() => {
+    users.map((data) => {
+     if (data.id === currentUser.uid){
+       return setPhone(data.phone)
+     }
+   })
+ }, [users])
+
 
   return (
     <div
@@ -53,31 +63,8 @@ export default function PetAbout() {
       }}
     >
       <NavBar/>
-      <div
-        className="profile-pannel"
-      >
-        <div
-          style={{minHeight: '150px'}}
-        >
-
-          {userData}
-
-          <Link
-            className="btn-link"
-            to='/pet-board'
-          >
-            Back to Pet-board
-          </Link>
-
-        </div>
-
-        <FormLabel style={{textAlign: 'center', cursor: 'pointer'}}>
-          <TextField style={{margin: '10px', display: 'none'}} type='file' />
-
-          <img src={photoURL} alt='avatar' style={{borderRadius: '50%', maxWidth: '100px', height: '100px', margin: '10px', backgroundSize: 'cover'}}/>
-        </FormLabel>
-      </div>
-      
+      <ProfilePannel/>
+     
       <div
         style={{
           display: 'flex',
@@ -97,10 +84,28 @@ export default function PetAbout() {
                 key={data.id}
                 className="pet-about-wrapper"
               >
-                <img
-                  src= {data.photoURL}
-                  className='pet-about-img'
-                />
+                <div className="pet-about-media-wrapper">
+                  <img
+                    src= {data.photoURL}
+                    className='pet-about-img'
+                  />
+                  <div>
+                    <p>
+                      Email: {data.email}
+                    </p>
+
+                    <p>
+                      Phone: {phone}
+                    </p>
+
+                    <p className='country'>
+                      <i class="fa-solid fa-location-dot"></i>
+                        {data.country}
+                    </p>
+                  </div>
+                  
+                </div>
+                
                 
                 <div
                   className="pet-about-text"
