@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useStorage, upload } from '../../context/StorageContext';
 import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '../../firebase';
+import { db, auth } from '../../firebase';
 
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -49,9 +49,10 @@ export default function EditProfile() {
     {name: name, lastName: lastName})
   }
 
-  const handleEditEmail = async (id, emailRef) => {
+  const handleEditEmail = async (id) => {
+    const userEmail = auth.currentUser.email
     await updateDoc(doc(db, 'users', id),
-    {email: emailRef.current.value})
+    {email: userEmail})
   }
 
 
@@ -203,6 +204,7 @@ export default function EditProfile() {
             <Button
               type="submit"
               fullWidth
+              onClick={handleEditEmail}
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               disabled={loading}
