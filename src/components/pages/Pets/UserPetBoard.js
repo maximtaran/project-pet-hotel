@@ -60,8 +60,10 @@ export default function UserPetBoard( ) {
    })
  }, [users])
 
+ 
+
   const currentUserPet = pets.map((pet) => {
-    if (pet.email === currentUser.email){
+    if (pet.userId === currentUser.uid){
       return (
         <PetEdit
             key={pet.id}

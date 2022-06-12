@@ -22,6 +22,7 @@ export default function PetAbout() {
   const { pets, users } = useStorage([])
   const [photoURL, setPhotoURL] = useState()
   const [phone, setPhone] = useState()
+  const [email, setEmail] = useState()
   const {id} = useParams()
 
   const userData = users.map((data) => {

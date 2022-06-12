@@ -7,13 +7,15 @@ const ProfilePannel = () => {
     const { currentUser } = useAuth()
     const { users } = useStorage([])
     const [photoURL, setPhotoURL] = useState()
+    const [userData, setUserData] = useState()
 
-    const userData = users.map((data) => {
+    useEffect(() => {
+      users.map((data) => {
         if (data.id === currentUser.uid){
-          return (
+          return setUserData(
           <div className="profile-pannel-inner" key={data.id}>
             <h1>{data.name} {data.lastName}</h1>
-            <h3>Email: {data.email}</h3>
+            <h3>Email: {currentUser.email}</h3>
             <h3>Phone Number: {data.phone}</h3>
             <h3>Country: {data.country}</h3>
           </div>
@@ -21,6 +23,8 @@ const ProfilePannel = () => {
           )
         }
     })
+    }, [users])
+    
 
       useEffect(() => {
         users.map((data) => {

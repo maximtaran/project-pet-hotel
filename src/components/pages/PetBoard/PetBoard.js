@@ -23,19 +23,6 @@ export default function PetBoard( ) {
   const [searchBy, setSearchBy] = useState(false)
   const { pets, users } = useStorage([])
 
-  const userData = users.map((data) => {
-    if (data.id === currentUser.uid){
-      return (
-      <div className="profile-pannel-inner" key={data.id}>
-        <h1>{data.name} {data.lastName}</h1>
-        <h3>Email: {data.email}</h3>
-        <h3>Phone Number: {data.phone}</h3>
-        <h3>Country: {data.country}</h3>
-      </div>
-      
-      )
-    }
-  })
 
   const handleEdit = async ( pet, title ) => {
     await updateDoc(doc(db, 'pets', pet.id), {title: title})

@@ -40,7 +40,7 @@ export default function BasicModal() {
             title,
             about,
             email: currentUser.email,
-            id: currentUser.uid,
+            userId: currentUser.uid,
             country: country,
             photoURL: 'https://www.maisonette.gr/wp-content/uploads/2018/01/pet-icon.png',
         })

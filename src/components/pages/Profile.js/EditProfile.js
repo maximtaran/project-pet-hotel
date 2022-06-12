@@ -49,6 +49,11 @@ export default function EditProfile() {
     {name: name, lastName: lastName})
   }
 
+  const handleEditEmail = async (id, emailRef) => {
+    await updateDoc(doc(db, 'users', id),
+    {email: emailRef.current.value})
+  }
+
 
   useEffect(() => {
       users.map((data) => {
@@ -57,8 +62,6 @@ export default function EditProfile() {
       }
     })
   }, [users])
-
-  
 
 
   const userName = users.map((data) => {
@@ -124,7 +127,7 @@ export default function EditProfile() {
 
           <div style={{display: 'flex', flexDirection: 'column'}}>
             <Typography component="h1" variant="h3">
-              {userName}{'  '+userLastName}
+              {userName}<span style={{marginLeft: '15px'}}>{userLastName}</span>
             </Typography>
 
             <FormLabel style={{textAlign: 'center', cursor: 'pointer'}}>
@@ -155,7 +158,7 @@ export default function EditProfile() {
             <Alert severity="error">{error}</Alert>
           </Stack>}
 
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form" noValidate onSubmit={handleSubmit && handleEditEmail} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
